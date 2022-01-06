@@ -1,0 +1,16 @@
+hosts
+.bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.cshrc
+.ssh/
+.tcshrc
+.viminfo
+.lesshst
+.python_history
+.gitconfig
+
+hosts
+.cache
+.ansible

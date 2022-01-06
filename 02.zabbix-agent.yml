@@ -1,0 +1,4 @@
+- hosts:
+  - ishop_prod
+  roles:
+  - { name: zabbix-agent }

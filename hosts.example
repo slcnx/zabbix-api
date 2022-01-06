@@ -1,0 +1,16 @@
+# https://c.isme.pub/2018/11/23/ansible-vars/
+[ishop_prod]
+1.1.1.1 ansible_port=22 VISIBLE_NAME="1.1.1.1-ishop-prod.07165v2" AGENT_PORT=10050 
+2.2.2.2 ansible_port=22 key=2
+
+
+[all:vars]
+# agent配置文件中指定的zabbixserver
+zabbix_server=zabbix-proxy.mykernel.cn
+
+# web
+zabbix_web=http://zabbix.mykernel.cn/zabbix/api_jsonrpc.php
+
+
+# zabbix_user_pass
+zabbix_user_pass=Admin:zabbix

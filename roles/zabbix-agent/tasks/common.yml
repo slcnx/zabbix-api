@@ -1,0 +1,12 @@
+- name: 注释默认配置中的hostname
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    state: present
+    regexp: 'Hostname=Zabbix server'
+    line: '#Hostname=Zabbix server'
+
+- name: 准备配置
+  template: src=zabbix-agent-extra.conf dest=/etc/zabbix/zabbix_agentd.d/zabbix-agent-extra.conf
+- name: 重启zabbix服务
+  service: name=zabbix-agent state=restarted
+

@@ -1,0 +1,79 @@
+---
+- name: diplay Host Variable from hostfile
+  debug: msg="The {{ inventory_hostname }} Value is {{ VISIBLE_NAME }}."
+# tasks file for add-to-zabbix-web
+- name: 注册变量 PUBLIC_IP
+  shell: curl -s ifconfig.me
+  register: PUBLIC_IP
+# 本地运行
+#  connection: local
+# 一批主机只运行一次
+#  run_once: true
+
+- name: 设置变量 PUBLIC_IP
+  set_fact: PUBLIC_IP={{ PUBLIC_IP.stdout }}
+
+- name: 打印 PUBLIC_IP 变量
+  debug: var="PUBLIC_IP"
+  run_once: true
+
+- name: 注册变量 USER
+  shell: "echo {{ zabbix_user_pass }} | awk -F: '{print $1}'"
+  register: USER
+- name: 设置变量 USER
+  set_fact: USER={{ USER.stdout }}
+
+- debug: var="USER"
+
+- name: 设置变量 PASS
+  shell: "echo {{ zabbix_user_pass }} | awk -F: '{print $2}'"
+  register: PASS
+
+- name: 设置变量 USER
+  set_fact: ZBXPASS={{ PASS.stdout }}
+
+- debug: var="ZBXPASS"
+
+- name: 创建主机 or 更新主机, 带有proxy
+  local_action:
+    module: community.zabbix.zabbix_host
+    server_url: "{{ zabbix_web }}"
+    login_user: "{{ USER }}"
+    login_password: "{{ ZBXPASS }}"
+    host_name: "{{ PUBLIC_IP }}"
+    visible_name: "{{ VISIBLE_NAME }}"
+    description: "{{ VISIBLE_NAME }} by ansible"
+    host_groups: "{{ GROUP_LIST_CSV.split(',') | list}}"
+    link_templates: "{{ LINK_TEMPLATES_LIST_CSV.split(',') | list}}"
+    status: enabled
+    state: present
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ PUBLIC_IP }}"
+        dns: ""
+        port: "{{ AGENT_PORT }}"
+    proxy: "{{ ZABBIX_PROXY }}"
+  when: "ZABBIX_PROXY is defined"
+- name: 创建主机 or 更新主机, 不带有proxy
+  local_action:
+    module: community.zabbix.zabbix_host
+    server_url: "{{ zabbix_web }}"
+    login_user: "{{ USER }}"
+    login_password: "{{ ZBXPASS }}"
+    host_name: "{{ PUBLIC_IP }}"
+    visible_name: "{{ VISIBLE_NAME }}"
+    description: "{{ VISIBLE_NAME }} by ansible"
+    host_groups: "{{ GROUP_LIST_CSV.split(',') | list}}"
+    link_templates: "{{ LINK_TEMPLATES_LIST_CSV.split(',') | list}}"
+    status: enabled
+    state: present
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ PUBLIC_IP }}"
+        dns: ""
+        port: "{{ AGENT_PORT }}"
+  when: "ZABBIX_PROXY is undefined"
