@@ -1,3 +1,4 @@
+#kubectl get node -o wide | awk 'NR>1{printf "%s VISIBLE_NAME=\"%s-%s\"\n",$7,$7,$1}'
 # https://c.isme.pub/2018/11/23/ansible-vars/
 [ishop_prod]
 1.1.1.1 ansible_port=22 VISIBLE_NAME="1.1.1.1-ishop-prod.07165v2" AGENT_PORT=10050 
@@ -14,3 +15,12 @@ zabbix_web=http://zabbix.mykernel.cn/zabbix/api_jsonrpc.php
 
 # zabbix_user_pass
 zabbix_user_pass=Admin:zabbix
+# WEB 全局配置
+# 默认链接的模板
+LINK_TEMPLATES_LIST_CSV=kubernetes-active-template
+
+# 全部走统一的代理
+ZABBIX_PROXY="kubernete-active-proxy"
+
+# AGENT端口
+AGENT_PORT=10050

@@ -1,0 +1,14 @@
+- hosts: "{{ inventory_group }}"
+  #- ishop_prod
+  gather_facts: False
+  tasks:
+   - name: diplay Host Variable from hostfile
+     debug: msg="The  {{ inventory_hostname }}  Value is {{ VISIBLE_NAME }} {{ GROUP_LIST_CSV }}."
+
+- hosts: "{{ inventory_group }}"
+  gather_facts: True
+  roles:
+  - name: zabbix-agent
+  - name: add-to-zabbix-web
+    # 逗号分隔的多个主机组的列表
+    GROUP_LIST_CSV: "ishop-test-kubernetes"

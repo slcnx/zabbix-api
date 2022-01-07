@@ -12,3 +12,8 @@ ansible-galaxy collection install community.zabbix
 ```bash
 ansible-playbook 03.add-to-zabbix-web.yml
 ```
+
+命令行中指定组
+```bash
+ansible-playbook 04.agent-and-web.yml  -e inventory_group=ishop_shangwu_test -e GROUP_LIST_CSV=ishop-shangwu-test-kubernetes
+```

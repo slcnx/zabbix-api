@@ -1,18 +1,32 @@
-- hosts: 121.199.21.41
-  #- ishop_prod
+- hosts: 
+  - ishop_prod
   gather_facts: False
   tasks:
    - name: diplay Host Variable from hostfile
      debug: msg="The  {{ inventory_hostname }}  Value is {{ VISIBLE_NAME }}."
 
 - hosts:
-  - 121.199.21.41
+  - ishop_prod
   gather_facts: False
   roles:
   - name: add-to-zabbix-web
     # 逗号分隔的多个主机组的列表
-    GROUP_LIST_CSV: "Discovered hosts,ishop-prod-kubernetes"
+    GROUP_LIST_CSV: "ishop-prod-kubernetes"
+
     # 逗号分隔的链接模板的列表
-    LINK_TEMPLATES_LIST_CSV: "kubernetes-active-template"
-     # WEB上配置的代理
-    ZABBIX_PROXY: "kubernete-active-proxy"
+    LINK_TEMPLATES_LIST_CSV: "kubernetes-active-template,monitor_nginxingress_api"
+
+    # WEB上配置的代理
+    #ZABBIX_PROXY: "kubernete-active-proxy"
+    
+- hosts:
+  - ishop_prod
+  gather_facts: False
+  roles:
+  - name: add-to-zabbix-web
+    # 逗号分隔的多个主机组的列表
+    GROUP_LIST_CSV: "ishop-prod-kubernetes"
+
+
+- hosts:
+  - ishop_test
