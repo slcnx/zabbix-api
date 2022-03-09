@@ -1,14 +1,18 @@
 - hosts: "{{ inventory_group }}"
-  #- ishop_prod
+  #- blog-test
   gather_facts: False
+  vars:
+  # web添加主机到哪个主机组, 逗号分隔的多个主机组的列表
+  -  GROUP_LIST_CSV: ""
   tasks:
-   - name: diplay Host Variable from hostfile
-     debug: msg="The  {{ inventory_hostname }}  Value is {{ VISIBLE_NAME }} {{ GROUP_LIST_CSV }}."
-
+   - name: 配置信息
+     debug: msg='ansible --> 当前组 {{ inventory_hostname }} ; web -->  zabbix 主机名 {{ VISIBLE_NAME }}  添加到主机组 {{ GROUP_LIST_CSV }} {% if ZABBIX_PROXY is defined%} 主动代理为 {{ zabbix_server }} {% else %} 不会经过代理直接到 {{ zabbix_server }}{% endif %};.'
+   - name: 防火墙信息
+     debug: msg='agent 配置文件 被动 {{ inventory_hostname }} 配置规则 src {{ zabbix_server }} dst {{ inventory_hostname }} 10050;    {{ zabbix_server }} 配置规则 src {{ inventory_hostname }} dest {{ zabbix_server }} 10050.'
 - hosts: "{{ inventory_group }}"
   gather_facts: True
   roles:
   - name: zabbix-agent
   - name: add-to-zabbix-web
-    # 逗号分隔的多个主机组的列表
-    GROUP_LIST_CSV: "ishop-test-kubernetes"
+    # web添加主机到哪个主机组, 逗号分隔的多个主机组的列表
+    GROUP_LIST_CSV: ""

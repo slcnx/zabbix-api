@@ -1,9 +1,31 @@
+- name: 添加导入配置
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    state: present
+    regexp: '^Include=/etc/zabbix/zabbix_agentd.d/*.conf'
+    line: 'Include=/etc/zabbix/zabbix_agentd.d/*.conf'
 - name: 注释默认配置中的hostname
   lineinfile:
     dest: /etc/zabbix/zabbix_agentd.conf
     state: present
-    regexp: 'Hostname=Zabbix server'
-    line: '#Hostname=Zabbix server'
+    regexp: '^Hostname=.*'
+    line: '#Hostname'
+
+- name: 注释默认配置中的server, server联系自己, 10050
+  # server联系自己, 10050
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    state: present
+    regexp: '^Server=.*$'
+    line: '#Server'
+
+- name: 注释默认配置中的serveractive, 自已联系server, 10051
+  # 自已联系server, 10051
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    state: present
+    regexp: '^ServerActive=.*$'
+    line: '#ServerActive'
 
 - name: 准备配置
   template: src=zabbix-agent-extra.conf dest=/etc/zabbix/zabbix_agentd.d/zabbix-agent-extra.conf

@@ -1,4 +1,3 @@
-- hosts:
-  - ishop_xiangguang_proxy
+- hosts: "{{ inventory_group }}"
   roles:
   - { name: prepare, ansible_python_interpreter: /usr/bin/python3 }

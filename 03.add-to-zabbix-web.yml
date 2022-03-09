@@ -1,32 +1,21 @@
-- hosts: 
-  - ishop_prod
+- hosts: "{{ inventory_group }}"
   gather_facts: False
+  #vars:
+  #-  GROUP_LIST_CSV: "kubernetes-blog-test"
   tasks:
    - name: diplay Host Variable from hostfile
      debug: msg="The  {{ inventory_hostname }}  Value is {{ VISIBLE_NAME }}."
 
-- hosts:
-  - ishop_prod
+- hosts: "{{ inventory_group }}"
   gather_facts: False
   roles:
   - name: add-to-zabbix-web
     # 逗号分隔的多个主机组的列表
-    GROUP_LIST_CSV: "ishop-prod-kubernetes"
+    #GROUP_LIST_CSV: "kubernetes-blog-test"
 
     # 逗号分隔的链接模板的列表
-    LINK_TEMPLATES_LIST_CSV: "kubernetes-active-template,monitor_nginxingress_api"
+    #LINK_TEMPLATES_LIST_CSV: "kubernetes-active-template,monitor_nginxingress_api"
 
     # WEB上配置的代理
     #ZABBIX_PROXY: "kubernete-active-proxy"
     
-- hosts:
-  - ishop_prod
-  gather_facts: False
-  roles:
-  - name: add-to-zabbix-web
-    # 逗号分隔的多个主机组的列表
-    GROUP_LIST_CSV: "ishop-prod-kubernetes"
-
-
-- hosts:
-  - ishop_test

@@ -34,7 +34,7 @@
 
 - debug: var="ZBXPASS"
 
-- name: 创建主机 or 更新主机, 带有proxy
+- name: web 创建主机 or 更新主机, 带有proxy, 默认走主动代理.
   local_action:
     module: community.zabbix.zabbix_host
     server_url: "{{ zabbix_web }}"
@@ -55,8 +55,9 @@
         dns: ""
         port: "{{ AGENT_PORT }}"
     proxy: "{{ ZABBIX_PROXY }}"
-  when: "ZABBIX_PROXY is defined"
-- name: 创建主机 or 更新主机, 不带有proxy
+  when: 
+  - 'ZABBIX_PROXY is defined'
+- name: web 创建主机 or 更新主机, 不带有proxy
   local_action:
     module: community.zabbix.zabbix_host
     server_url: "{{ zabbix_web }}"
@@ -76,4 +77,5 @@
         ip: "{{ PUBLIC_IP }}"
         dns: ""
         port: "{{ AGENT_PORT }}"
-  when: "ZABBIX_PROXY is undefined"
+  when:  
+  - "ZABBIX_PROXY is undefined" 

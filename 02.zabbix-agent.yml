@@ -1,4 +1,3 @@
-- hosts:
-  - ishop_prod
+- hosts: "{{ inventory_group }}"
   roles:
   - { name: zabbix-agent }

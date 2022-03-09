@@ -76,25 +76,25 @@ curl -s -X POST -H 'Content-Type:application/json' -d '
 
     {
       "groupid": "34",
-      "name": "ishop-prod-kubernetes",
+      "name": "kubernetes-blog-test",
       "internal": "0",
       "flags": "0"
     },
     {
       "groupid": "35",
-      "name": "ishop-shangwu-test-kubernetes",
+      "name": "blog-test-kubernetes",
       "internal": "0",
       "flags": "0"
     },
     {
       "groupid": "36",
-      "name": "yun-test-kubernetes",
+      "name": "blog-test-kubernetes",
       "internal": "0",
       "flags": "0"
     },
     {
       "groupid": "37",
-      "name": "yun-prod-kubernetes",
+      "name": "blog-prod-kubernetes",
       "internal": "0",
       "flags": "0"
 
@@ -144,7 +144,7 @@ curl -s -X POST -H 'Content-Type:application/json' -d '
      "method": "host.create",
      "params": {
          "host": "121.199.21.41", 
-         "name": "121.199.21.41-ishop-prod.07165v2", 
+         "name": "121.199.21.41-blog-test.07165v2", 
          "interfaces": [
              {
                  "type": 1, 
