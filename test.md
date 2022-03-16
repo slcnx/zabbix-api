@@ -15,6 +15,40 @@ curl -s -X POST -H 'Content-Type:application/json' -d '
 aabbcc.........
 
 
+
+# 获取触发器对应的主机
+# available:
+#0 - (default) unknown;
+#1 - available;
+#2 - unavailable.
+# status:
+#0 - (default) monitored host; 已监控的主机
+#1 - unmonitored host.
+
+# value 触发器启动的
+curl -s -X POST -H 'Content-Type:application/json' -d '
+{
+  "jsonrpc": "2.0",
+  "method": "trigger.get",
+  "params": {
+	"output": [
+	  "expression",
+	  "status",
+	  "description",
+	  "state",
+	  "extend"
+	],
+	"selectHosts": ["available","description","error","status","name"],
+	"filter": {
+		"value": 1
+	}
+  },
+  "auth": "aabbcc.........",
+  "id": 1
+}
+' http://zabbix.mykernel.cn/zabbix/api_jsonrpc.php | jq -r .
+
+
 # host
 curl -s -X POST -H 'Content-Type:application/json' -d '
 {
