@@ -26,10 +26,18 @@ ansible-playbook 03.add-to-zabbix-web.yml
 ```bash
 # 不过代理
 # server到agent，主动/被动, 由链接的模板控制;
+## 主动模式
 ansible-playbook 04.agent-and-web.yml -e zabbix_server=zabbix.mykernel.io -e LINK_TEMPLATES_LIST_CSV="active" -e GROUP_LIST_CSV=kubernetes-blog-test -e inventory_group=blog-test
+## 被动动模式
+ansible-playbook 04.agent-and-web.yml -e zabbix_server=zabbix.mykernel.io -e LINK_TEMPLATES_LIST_CSV="passive" -e GROUP_LIST_CSV=kubernetes-blog-test -e inventory_group=blog-test
+
 
 # 过代理
 # web先添加代理. 主动/被动代理. 目前只实现主动.
 # server到agent，主动/被动, 由链接的模板控制;
+## 主动模式
 ansible-playbook 04.agent-and-web.yml -e zabbix_server=zabbix.mykernel.io -e ZABBIX_PROXY=kubernete-active-proxy -e LINK_TEMPLATES_LIST_CSV="active" -e GROUP_LIST_CSV=kubernetes-blog-test -e inventory_group=blog-test
+
+## 被动动模式
+ansible-playbook 04.agent-and-web.yml -e zabbix_server=zabbix.mykernel.io -e ZABBIX_PROXY=kubernete-passive-proxy -e LINK_TEMPLATES_LIST_CSV="active" -e GROUP_LIST_CSV=kubernetes-blog-test -e inventory_group=blog-test
 ```
